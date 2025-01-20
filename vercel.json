@@ -1,8 +1,32 @@
 {
+  "builds": [
+    {
+      "src": "manage.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxDuration": 10
+      }
+    }
+  ],
+  "functions": {
+    "api/*.py": {
+      "runtime": "python3.9"
+    }
+  },
+  "env": {
+    "DJANGO_SETTINGS_MODULE": "myproject.settings"
+  },
+  "hooks": {
+    "build": "bash vercel-build.sh"
+  },
   "routes": [
     {
       "src": "/(.*)",
       "dest": "api/wsgi.py"
+    },
+    {
+      "src": "/static/(.*)",
+      "dest": "/staticfiles/$1"
     }
   ]
 }
